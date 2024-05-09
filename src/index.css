@@ -1,0 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.pt-nav{
+  @apply pt-[80px]
+}

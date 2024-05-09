@@ -1,14 +1,19 @@
 import { FaChevronRight } from "react-icons/fa";
 import { Hero } from "../components/layouts/home/Hero";
 import { OrderCard } from "../components/fragments/OrderCard";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { Loader } from "../components/fragments/Loader";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+
+gsap.registerPlugin(useGSAP);
 
 const HomePage = () => {
     const [orderData, setOrderData] = useState(null)
     const [productsData, setProductsData] = useState(null)
     const [loading, setLoading] = useState(true)
+    const orderContainer = useRef()
 
     useEffect(() => {
         const fetchData = async () => {
@@ -22,6 +27,15 @@ const HomePage = () => {
         }
         fetchData()
     }, [])
+
+    useGSAP(() => {
+        gsap.from(orderContainer.current, {
+            y: 100, // Mulai dari bawah
+            opacity: 0, // Opacity awal
+            duration: 4, // Durasi animasi
+            ease: "power4.inOut",
+        })
+    })
 
     useEffect(() => {
         const fetchData = async () => {
@@ -39,7 +53,7 @@ const HomePage = () => {
         <>
         <div className="pt-nav pb-10 px-[5%]">
             <Hero orderData={orderData}/>
-            <div className="mt-8 py-5 px-[5%] bg-white shadow-soft rounded-lg">
+            <div ref={orderContainer} className="mt-8 py-5 px-[5%] bg-white shadow-soft rounded-lg">
                 <div>
                     <h1 className="text-xl text-violet-500 font-bold">Orders</h1>
                     <p className="text-sm text-neutral-500">Track, edit, and review cemilin orders</p>

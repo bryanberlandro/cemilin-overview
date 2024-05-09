@@ -1,33 +1,45 @@
 import { FaChevronUp } from "react-icons/fa";
 import { OverviewCard } from "../../fragments/OverviewCard";
-import { useState } from "react";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+
+gsap.registerPlugin(useGSAP);
 
 export function Hero({orderData}){
 
-    if(!orderData){
-        return(
-            <>
-            <div className="flex gap-2">
-                <div className={`rounded-lg px-5 py-10 flex items-center justify-between bg-gradient-to-r from-neutral-300 to-neutral-400 animate-pulse shadow-soft w-1/2`}>
-                </div>
-                <div className={`rounded-lg px-5 py-10 flex items-center justify-between bg-gradient-to-r from-neutral-300 to-neutral-400 animate-pulse shadow-soft w-1/2`}>
-                </div>
-            </div>
-                <div className={`rounded-lg px-5 py-10 flex items-center justify-between bg-gradient-to-r from-neutral-300 to-neutral-400 animate-pulse shadow-soft w-full mt-2`}>
-                </div>
-            </>
-        )
-    }
+    useGSAP(() => {
+        gsap.from("#box1", {
+            x: -100, // Mulai dari bawah
+            opacity: 0, // Opacity awal
+            duration: 1, // Durasi animasi
+            ease: "power4.inOut",
+        })
+        gsap.from("#box2", {
+            x: 100, // Mulai dari bawah
+            opacity: 0, // Opacity awal
+            duration: 2, // Durasi animasi
+            ease: "power4.inOut",
+        })
+        gsap.from("#box3", {
+            y: 100, // Mulai dari bawah
+            opacity: 0, // Opacity awal
+            duration: 3, // Durasi animasi
+            ease: "power4.inOut",
+        })
+    })
+
 
     return(
         <div>
                 <div className="flex gap-2">
                     <OverviewCard
+                        id={"box1"}
                         title={"Income"}
                         total={"134.000"}
                         percent={"10"}
                     />
                     <OverviewCard
+                        id={"box2"}
                         title={"Outcome"}
                         total={"24.000"}
                         percent={"2.5"}
@@ -36,6 +48,7 @@ export function Hero({orderData}){
                 </div>
                 <div className="mt-2">
                     <OverviewCard
+                        id={"box3"}
                         title={"Total Profit"}
                         total={"114.000"}
                         percent={"15"}

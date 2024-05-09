@@ -1,7 +1,24 @@
 import { FaChevronUp } from "react-icons/fa";
 import { OverviewCard } from "../../fragments/OverviewCard";
+import { useState } from "react";
 
-export function Hero(){
+export function Hero({orderData}){
+
+    if(!orderData){
+        return(
+            <>
+            <div className="flex gap-2">
+                <div className={`rounded-lg px-5 py-10 flex items-center justify-between bg-gradient-to-r from-neutral-300 to-neutral-400 animate-pulse shadow-soft w-1/2`}>
+                </div>
+                <div className={`rounded-lg px-5 py-10 flex items-center justify-between bg-gradient-to-r from-neutral-300 to-neutral-400 animate-pulse shadow-soft w-1/2`}>
+                </div>
+            </div>
+                <div className={`rounded-lg px-5 py-10 flex items-center justify-between bg-gradient-to-r from-neutral-300 to-neutral-400 animate-pulse shadow-soft w-full mt-2`}>
+                </div>
+            </>
+        )
+    }
+
     return(
         <div>
                 <div className="flex gap-2">

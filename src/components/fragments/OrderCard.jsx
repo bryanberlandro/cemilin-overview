@@ -1,30 +1,14 @@
-import { useEffect, useState } from "react"
+import { StatusBtn } from "../elements/StatusBtn"
 
 /* eslint-disable react/prop-types */
 export function OrderCard({name, status, item, pieces, price}){
-    const [statusColor, setStatusColor] = useState("")
-
-    useEffect(() => {
-        if(status == "completed"){
-            setStatusColor("bg-violet-400")
-        } 
-        else if(status == "pending"){
-            setStatusColor("bg-yellow-400")
-        }
-        else if(status == "canceled"){
-            setStatusColor("bg-red-400")
-        }
-
-    }, [status])
 
     return(
         <>
         <div className="rounded-lg bg-neutral-50 cursor-pointer w-full px-5 py-4 hover:scale-[.98] hover:bg-neutral-100 transition-all duration-100">
                             <div className="flex justify-between items-center">
                                 <h1 className="font-semibold">{name}</h1>
-                                <div className={`${statusColor} px-4 text-[10px] rounded-full py-1 text-white`}>
-                                    <p>{status}</p>
-                                </div>
+                                <StatusBtn status={status}/>
                             </div>
                             <div className="mt-2 flex justify-between">
                                 <div className="text-sm">

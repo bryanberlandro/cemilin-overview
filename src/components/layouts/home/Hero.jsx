@@ -11,13 +11,13 @@ export function Hero({orderData}){
         gsap.from("#box1", {
             x: -100, // Mulai dari bawah
             opacity: 0, // Opacity awal
-            duration: 1, // Durasi animasi
-            ease: "power4.inOut",
+            duration: 2, // Durasi animasi
+            ease: "power4.out",
         })
         gsap.from("#box2", {
             x: 100, // Mulai dari bawah
             opacity: 0, // Opacity awal
-            duration: 2, // Durasi animasi
+            duration: 2.5, // Durasi animasi
             ease: "power4.inOut",
         })
         gsap.from("#box3", {
@@ -25,6 +25,7 @@ export function Hero({orderData}){
             opacity: 0, // Opacity awal
             duration: 3, // Durasi animasi
             ease: "power4.inOut",
+            // height: 0,
         })
     })
 

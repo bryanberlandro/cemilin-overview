@@ -3,12 +3,14 @@ import axios from "axios";
 import { FaTrash } from "react-icons/fa";
 import { Loader } from "../components/fragments/Loader";
 import { Alert } from "../components/fragments/Alert";
+import { StatusBtn } from "../components/elements/StatusBtn";
 
 const OrdersPage = () => {
     const [products, setProducts] = useState(null);
     const [loading, setLoading] = useState(true);
     const [orderLoad, setOrderLoad] = useState(false)
     const [success, setSuccess] = useState(false)
+    const [totalPrice, setTotalPrice] = useState(0)
 
     const [name, setName] = useState("");
     const [chosenProduct, setChosenProduct] = useState();
@@ -29,6 +31,25 @@ const OrdersPage = () => {
         }
         fetchData()
     }, [])
+
+    useEffect(() => {
+        console.log(chosenProduct)
+    }, [chosenProduct])
+
+    useEffect(() => {
+        if(chosenProduct){
+            const findCireng = chosenProduct.name.toLowerCase() == "cireng isi ayam suwir"
+            if(findCireng){
+                if(totalProduct % 2 == 0){
+                    setTotalPrice((chosenProduct.price - 500 ) * totalProduct)
+                } else {
+                    setTotalPrice(chosenProduct.price * totalProduct - 1000)
+                }
+            } else {
+                setTotalPrice(chosenProduct.price * totalProduct)
+            }
+        } 
+    }, [totalProduct])
 
     function handleChooseProd(product){
         const sameProduct = products.find(prod => product._id == prod._id)
@@ -68,6 +89,7 @@ const OrdersPage = () => {
                 <div className="text-lg font-bold text-violet-500 flex justify-between items-center">
                     <h1>Input Order</h1>
                     <FaTrash/>
+                    
                 </div>
                 <form onSubmit={handleSubmitOrder} className="mt-5 flex flex-col">
                     <div className="flex flex-col gap-1">
@@ -80,10 +102,10 @@ const OrdersPage = () => {
                             type="text" 
                             name="name" 
                             id="name"
-                            className="outline-none border-2 rounded-lg px-4 py-1"
+                            className="outline-none focus:border-violet-400 border-2 rounded-lg px-4 py-1"
                         />
                     </div>
-                    <div className="mt-4">
+                    <div className="mt-5">
                         <label htmlFor="item" className="text-sm text-neutral-500">Product</label>
                         <div className="flex gap-2 flex-wrap pt-2">
                             {
@@ -106,17 +128,17 @@ const OrdersPage = () => {
                             }
                         </div>
                     </div>
-                    <div className="flex flex-col gap-1 mt-4">
+                    <div className="flex flex-col gap-1 mt-5">
                         <label htmlFor="totalProduct" className="text-sm text-neutral-500">Total Product</label>
                         <input 
                             onChange={(e) => setTotalProduct(e.target.value)}
                             type="number" 
                             name="totalProduct" 
                             id="totalProduct" 
-                            className="outline-none border-2 rounded-lg px-4 py-1"
+                            className="outline-none focus:border-violet-400 border-2 rounded-lg px-4 py-1"
                         />
                     </div>
-                    <div className="mt-4 flex gap-1">
+                    <div className="mt-5 flex gap-1">
                         <div className="flex flex-col w-1/2 gap-1">
                             <label htmlFor="totalPaid" className="text-sm text-neutral-500">Total Paid</label>
                             <input 
@@ -124,7 +146,7 @@ const OrdersPage = () => {
                                 type="number" 
                                 name="totalPaid" 
                                 id="totalPaid" 
-                                className="outline-none border-2 rounded-lg px-4 py-1"
+                                className="outline-none focus:border-violet-400 border-2 rounded-lg px-4 py-1"
                             />
                         </div>
                         <div className="flex flex-col w-1/2 gap-1">
@@ -134,22 +156,31 @@ const OrdersPage = () => {
                                 type="number" 
                                 name="totalChange" 
                                 id="totalChange" 
-                                className="outline-none border-2 rounded-lg px-4 py-1"
+                                className="outline-none focus:border-violet-400 border-2 rounded-lg px-4 py-1"
                             />
                         </div>
                     </div>
-                        <div className="flex flex-col mt-4 gap-1">
+                        <div className="flex flex-col mt-5 gap-1">
                             <label htmlFor="purchaseDate" className="text-sm text-neutral-500">Purchase Date</label>
                             <input 
                                 onChange={(e) => setPurchaseDate(e.target.value)}
                                 type="date" 
                                 name="purchaseDate" 
                                 id="purchaseDate" 
-                                className="outline-none border-2 rounded-lg px-4 py-1"
+                                className="outline-none focus:border-violet-400 border-2 rounded-lg px-4 py-1"
                             />
                         </div>
-
-                        <button type="submit" className="py-2 mt-10 bg-violet-500 text-white rounded-lg flex justify-center items-center">{orderLoad ? <Loader/> : "Input Order"}</button>
+                        <div className="flex flex-col mt-5 gap-1">
+                            <p className="text-sm text-neutral-500">Complete ?</p>
+                            <div className="flex gap-2">
+                                <StatusBtn status={"completed"}/>
+                                <StatusBtn status={"pending"}/>
+                                <StatusBtn status={"canceled"}/>
+                            </div>
+                        </div>
+                        
+                        <p className="mt-10">Total Price : Rp.{totalPrice}</p>
+                        <button type="submit" className="py-2 mt-2 bg-violet-500 text-white rounded-lg flex justify-center items-center">{orderLoad ? <Loader/> : "Input Order"}</button>
                 </form>
             </div>
             <Alert success={success}/>

@@ -95,8 +95,8 @@ export function OrderDetails({data, showDetails, setShowDetails, onClick}){
                         </div>
                         <div className="flex gap-1 mt-8 text-sm">
                             <button className="w-1/2 py-2 bg-yellow-500 text-white rounded-lg">Edit</button>
-                            <button className="w-1/2 py-2 bg-red-500 text-white rounded-lg" onClick={()  => handleDeleteOrder(data._id)}>
-                            {orderLoad ? <Loader/> : "Delete"}
+                            <button className="w-1/2 py-2 bg-red-500 flex justify-center items-center text-white rounded-lg" onClick={()  => handleDeleteOrder(data._id)}>
+                            {orderLoad ? <Loader color={"text-white"}/> : "Delete"}
                             </button>
                         </div>
                     </div>

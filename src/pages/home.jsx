@@ -86,7 +86,7 @@ const HomePage = () => {
                     </div>
                     <p className="text-sm text-neutral-500">Track, edit, and review cemilin orders</p>
                 </div>
-                <div className="flex flex-col items-center py-4 gap-3 my-6">
+                <div className="flex flex-col items-center py-4  my-6">
                     {
                         loading ? 
                         <Loader color={"text-violet-400"}/>

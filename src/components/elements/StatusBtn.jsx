@@ -1,8 +1,21 @@
 /* eslint-disable react/prop-types */
 import { useEffect, useState } from "react"
 
-export function StatusBtn({status}){
+export function StatusBtn({status, handleStatus, isStatus}){
     const [statusColor, setStatusColor] = useState("")
+    const [filter, setFilter] = useState("")
+
+    useEffect(() => {
+        if(isStatus){
+            if(isStatus !== status){
+                setFilter("grayscale")
+            } else {
+                setFilter("grayscale-0")
+            }
+        } else {
+            setFilter("grayscale-0")
+        }
+    }, [isStatus])
 
     useEffect(() => {
         if(status == "completed"){
@@ -13,13 +26,15 @@ export function StatusBtn({status}){
         }
         else if(status == "canceled"){
             setStatusColor("bg-red-400")
+        } else {
+            setStatusColor("bg-neutral-400")
         }
 
     }, [status])
 
     return(
         <>
-        <div className={`${statusColor} px-4 text-[10px] rounded-full py-1 text-white`}>
+        <div onClick={() => handleStatus(status)} className={`${statusColor} cursor-pointer transition-all duration-150 px-4 ${filter} text-[10px] rounded-full py-1 text-white`}>
             <p>{status}</p>
         </div>
         </>

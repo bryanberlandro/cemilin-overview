@@ -18,7 +18,7 @@ export function Navbar(){
                 <FaHamburger onClick={handleShowSidebar}/>
             </div>
         </div>
-        <Sidebar showSidebar={showSidebar} closeSidebar={showSidebar}/>
+        <Sidebar showSidebar={showSidebar} closeSidebar={handleShowSidebar}/>
         </>
     )
 }

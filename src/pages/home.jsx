@@ -32,10 +32,9 @@ const HomePage = () => {
             }
         }
         fetchData()
-    }, [])
+    }, [orderData, showDetails])
 
     useEffect(() => {
-        console.log(orderData)
         if(orderData){
             const totalMoney = orderData.reduce((acc, cur) => acc + cur.totalPricePaid, 0)
             setTotalPayment(totalMoney)
@@ -64,6 +63,11 @@ const HomePage = () => {
     }, [])
 
     function handleShowDetails(id){
+        if(orderDetails){
+            setOrderDetails(null)
+            setShowDetails(!showDetails)
+            return 
+        }
         const selectedOrder = orderData.find(order => order._id == id);
         setOrderDetails(selectedOrder)
         setShowDetails(!showDetails)
@@ -87,15 +91,15 @@ const HomePage = () => {
                         loading ? 
                         <Loader color={"text-violet-400"}/>
                         :
-                        orderData?.slice(0,4).map(order => (
+                        orderData.length == 0 ?
+                        (
+                            <h1 className="text-sm text-neutral-400">no data available</h1>
+                        )
+                        :orderData?.slice(0,4).map(order => (
                             <OrderCard
                                 onClick={() => handleShowDetails(order._id)}
                                 key={order._id}
-                                name={order.name}
-                                status={"completed"}
-                                item={order.itemName}
-                                pieces={order.totalItems}
-                                price={order.totalPricePaid}
+                                data={order}
                             />
                         ))
                     }
@@ -106,12 +110,12 @@ const HomePage = () => {
                         <p className="text-xl font-semibold">{Rupiah(totalPayment)}</p>
                     </div>
                     <div className="flex hover:gap-4 transition-all duration-150 text-sm gap-2 items-center text-violet-400">
-                        <a href="">see {orderData?.length - 4} orders more</a>
+                        <a href="">see {orderData?.length > 3 ? orderData.length - 4 : "0"} orders more</a>
                         <FaChevronRight/>
                     </div>
                 </div>
             </div>
-            <OrderDetails data={orderDetails} showDetails={showDetails}/>
+            <OrderDetails data={orderDetails} showDetails={showDetails} setShowDetails={setShowDetails} onClick={handleShowDetails}/>
         </div>
         </>
     )

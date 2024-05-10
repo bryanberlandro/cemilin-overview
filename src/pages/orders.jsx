@@ -78,7 +78,7 @@ const OrdersPage = () => {
         }
         const timeout = setTimeout(() => {
             setSuccess(false)
-        }, 2000)
+        }, 3000)
         return () => clearTimeout(timeout);
     }
 

@@ -9,22 +9,22 @@ export function Hero({orderData}){
 
     useGSAP(() => {
         gsap.from("#box1", {
-            x: -100, // Mulai dari bawah
+            x: -50, // Mulai dari bawah
             opacity: 0, // Opacity awal
-            duration: 2, // Durasi animasi
-            ease: "power4.out",
+            duration: 1, // Durasi animasi
+            ease: "expo.inOut",
         })
         gsap.from("#box2", {
-            x: 100, // Mulai dari bawah
+            x: 50, // Mulai dari bawah
             opacity: 0, // Opacity awal
-            duration: 2.5, // Durasi animasi
-            ease: "power4.inOut",
+            duration: 2, // Durasi animasi
+            ease: "expo.inOut",
         })
         gsap.from("#box3", {
-            y: 100, // Mulai dari bawah
-            opacity: 0, // Opacity awal
+            y: 50, // Mulai dari bawah
+            opacity: 0,
             duration: 3, // Durasi animasi
-            ease: "power4.inOut",
+            ease: "expo.inOut",
             // height: 0,
         })
     })

@@ -4,6 +4,8 @@ import { FaTrash } from "react-icons/fa";
 import { Loader } from "../components/fragments/Loader";
 import { Alert } from "../components/fragments/Alert";
 import { StatusBtn } from "../components/elements/StatusBtn";
+import { Input } from "../components/fragments/Input";
+import { Rupiah } from "../utils/Rupiah";
 
 const OrdersPage = () => {
     const [products, setProducts] = useState(null);
@@ -15,10 +17,10 @@ const OrdersPage = () => {
     const [name, setName] = useState("");
     const [chosenProduct, setChosenProduct] = useState();
     const [totalProduct, setTotalProduct] = useState("");
-    const [totalPaid, setTotalPaid] = useState("");
-    const [totalChange, setTotalChange] = useState("");
+    const [totalPaid, setTotalPaid] = useState(0);
+    const [totalChange, setTotalChange] = useState(0);
     const [purchaseDate, setPurchaseDate] = useState(null);
-
+    
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -33,21 +35,17 @@ const OrdersPage = () => {
     }, [])
 
     useEffect(() => {
-        console.log(chosenProduct)
-    }, [chosenProduct])
+        const exchange = totalPaid - totalPrice
+        if(totalPaid == 0 || totalPaid == ""){
+            return setTotalChange(0)
+        }
+        setTotalChange(exchange)
+    }, [totalPaid])
+
 
     useEffect(() => {
         if(chosenProduct){
-            const findCireng = chosenProduct.name.toLowerCase() == "cireng isi ayam suwir"
-            if(findCireng){
-                if(totalProduct % 2 == 0){
-                    setTotalPrice((chosenProduct.price - 500 ) * totalProduct)
-                } else {
-                    setTotalPrice(chosenProduct.price * totalProduct - 1000)
-                }
-            } else {
-                setTotalPrice(chosenProduct.price * totalProduct)
-            }
+            setTotalPrice(chosenProduct.price * totalProduct)
         } 
     }, [totalProduct])
 
@@ -66,6 +64,7 @@ const OrdersPage = () => {
                 name: name,
                 itemName: chosenProduct.name,
                 totalItems: totalProduct,
+                totalPrice: totalPrice,
                 totalPricePaid: totalPaid,
                 totalChange: totalChange,
                 purchaseDate: purchaseDate
@@ -93,20 +92,19 @@ const OrdersPage = () => {
                 </div>
                 <form onSubmit={handleSubmitOrder} className="mt-5 flex flex-col">
                     <div className="flex flex-col gap-1">
-                        <label 
-                            htmlFor="name" className="text-neutral-500 text-sm"
-                        >Name
-                        </label>
-                        <input 
+                        <Input
+                            htmlFor={"name"}
+                            label={"Name"}
+                            name={"name"}
+                            id={"name"}
+                            type={"text"}
                             onChange={(e) => setName(e.target.value)}
-                            type="text" 
-                            name="name" 
-                            id="name"
-                            className="outline-none focus:border-violet-400 border-2 rounded-lg px-4 py-1"
+                            placeholder={"example name"}
                         />
                     </div>
                     <div className="mt-5">
                         <label htmlFor="item" className="text-sm text-neutral-500">Product</label>
+                        <p className="text-xs text-violet-400">harga satu porsi !</p>
                         <div className="flex gap-2 flex-wrap pt-2">
                             {
                                 loading 
@@ -128,46 +126,52 @@ const OrdersPage = () => {
                             }
                         </div>
                     </div>
-                    <div className="flex flex-col gap-1 mt-5">
-                        <label htmlFor="totalProduct" className="text-sm text-neutral-500">Total Product</label>
-                        <input 
+                    <div className="mt-5 flex gap-1">
+                        <div className="flex flex-col gap-1 w-1/2">
+                            <Input
+                            htmlFor={"totalProduct"}
+                            label={"Total Product"}
+                            type={"number"}
+                            name={"totalProduct"}
+                            id={"totalProduct"}
+                            placeholder={"1 porsi"}
                             onChange={(e) => setTotalProduct(e.target.value)}
-                            type="number" 
-                            name="totalProduct" 
-                            id="totalProduct" 
-                            className="outline-none focus:border-violet-400 border-2 rounded-lg px-4 py-1"
-                        />
+                            />
+                        </div>
+                        <div className="flex flex-col gap-1 w-1/2">
+                            <p className={`text-sm ${totalPrice > 0 ? "text-violet-400" : "text-neutral-500"}`}>Total Price</p>
+                            <div className={`outline-none border-b-2 ${totalPrice > 0 ? "border-violet-400 font-semibold" : "border-neutral-400 font-normal" }  px-4 py-1`}>
+                                {Rupiah(totalPrice)}
+                            </div>
+                        </div>
                     </div>
                     <div className="mt-5 flex gap-1">
                         <div className="flex flex-col w-1/2 gap-1">
-                            <label htmlFor="totalPaid" className="text-sm text-neutral-500">Total Paid</label>
-                            <input 
+                            <Input
+                                label={"Total Paid"}
+                                htmlFor={"totalPaid"}
+                                id={"totalPaid"}
+                                name={"totalPaid"}
+                                type={"number"}
+                                placeholder={"Rp. 10.000"}
                                 onChange={(e) => setTotalPaid(e.target.value)}
-                                type="number" 
-                                name="totalPaid" 
-                                id="totalPaid" 
-                                className="outline-none focus:border-violet-400 border-2 rounded-lg px-4 py-1"
                             />
                         </div>
                         <div className="flex flex-col w-1/2 gap-1">
-                            <label htmlFor="totalChange" className="text-sm text-neutral-500">Total Change</label>
-                            <input 
-                                onChange={(e) => setTotalChange(e.target.value)}
-                                type="number" 
-                                name="totalChange" 
-                                id="totalChange" 
-                                className="outline-none focus:border-violet-400 border-2 rounded-lg px-4 py-1"
-                            />
+                            <p className={`text-sm ${totalPrice > 0 ? "text-violet-400" : "text-neutral-500"}`}>Total Change</p>
+                            <div className={`outline-none border-b-2 ${totalPrice > 0 ? "border-violet-400 font-semibold" : "border-neutral-400 font-normal" }  px-4 py-1`}>
+                                {Rupiah(totalChange)}
+                            </div>
                         </div>
                     </div>
                         <div className="flex flex-col mt-5 gap-1">
-                            <label htmlFor="purchaseDate" className="text-sm text-neutral-500">Purchase Date</label>
-                            <input 
+                            <Input
+                                label={"Purchase Date"}
+                                htmlFor={"purchaseDate"}
+                                id={"purchaseDate"}
+                                name={"purchaseDate"}
+                                type={"date"}
                                 onChange={(e) => setPurchaseDate(e.target.value)}
-                                type="date" 
-                                name="purchaseDate" 
-                                id="purchaseDate" 
-                                className="outline-none focus:border-violet-400 border-2 rounded-lg px-4 py-1"
                             />
                         </div>
                         <div className="flex flex-col mt-5 gap-1">
@@ -179,8 +183,7 @@ const OrdersPage = () => {
                             </div>
                         </div>
                         
-                        <p className="mt-10">Total Price : Rp.{totalPrice}</p>
-                        <button type="submit" className="py-2 mt-2 bg-violet-500 text-white rounded-lg flex justify-center items-center">{orderLoad ? <Loader/> : "Input Order"}</button>
+                        <button type="submit" className="py-2 mt-10 bg-violet-500 text-white rounded-lg flex justify-center items-center">{orderLoad ? <Loader/> : "Input Order"}</button>
                 </form>
             </div>
             <Alert success={success}/>

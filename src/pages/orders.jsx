@@ -14,6 +14,8 @@ const OrdersPage = () => {
     const [orderLoad, setOrderLoad] = useState(false)
     const [success, setSuccess] = useState(false)
     const [totalPrice, setTotalPrice] = useState(0)
+    const [optionProduct, setOptionProduct] = useState(null)
+    const [optionPrice, setOptionPrice] = useState(0)
 
     const [name, setName] = useState("");
     const [chosenProduct, setChosenProduct] = useState();
@@ -36,12 +38,18 @@ const OrdersPage = () => {
     }, [])
 
     useEffect(() => {
-        const exchange = totalPaid - totalPrice
+        const exchange = totalPaid - totalPrice 
+        const optionChange = totalPaid - optionPrice
+        console.log(optionChange)
         if(totalPaid == 0 || totalPaid == ""){
             return setTotalChange(0)
         }
-        setTotalChange(exchange)
-    }, [totalPaid])
+        if(optionProduct > 0){
+            return setTotalChange(optionChange)
+        } else {
+            return setTotalChange(exchange)
+        }
+    }, [totalPaid, optionPrice])
 
 
     useEffect(() => {
@@ -49,6 +57,12 @@ const OrdersPage = () => {
             setTotalPrice(chosenProduct.price * totalProduct)
         } 
     }, [totalProduct])
+
+    useEffect(() => {
+        if(chosenProduct){
+            setOptionPrice(chosenProduct.price * optionProduct)
+        } 
+    }, [optionProduct])
 
     function handleChooseProd(product){
         const sameProduct = products.find(prod => product._id == prod._id)
@@ -64,8 +78,8 @@ const OrdersPage = () => {
             await axios.post("https://cemilin-api.vercel.app/buyers", {
                 name: name,
                 itemName: chosenProduct.name,
-                totalItems: totalProduct,
-                totalPrice: totalPrice,
+                totalItems: totalProduct ? totalProduct : optionProduct,
+                totalPrice: totalPrice ? totalPrice : optionPrice,
                 totalPricePaid: totalPaid,
                 totalChange: totalChange,
                 purchaseDate: purchaseDate
@@ -145,6 +159,30 @@ const OrdersPage = () => {
                             <div className={`outline-none border-b-2 ${totalPrice > 0 ? "border-violet-400 font-semibold" : "border-neutral-400 font-normal" }  px-4 py-1`}>
                                 {Rupiah(totalPrice)}
                             </div>
+                        </div>
+                    </div>
+                    <div className="mt-5 flex gap-1">
+                        <div className="flex flex-col gap-1 w-1/2">
+                            <Input
+                            htmlFor={"optionProduct"}
+                            label={"Option Product"}
+                            type={"number"}
+                            name={"optionProduct"}
+                            id={"optionProduct"}
+                            placeholder={"1 porsi"}
+                            onChange={(e) => setOptionProduct(e.target.value)}
+                            />
+                        </div>
+                        <div className="flex flex-col gap-1 w-1/2">
+                        <Input
+                            htmlFor={"optionPrice"}
+                            label={"Option Price"}
+                            type={"number"}
+                            name={"optionPrice"}
+                            id={"optionPrice"}
+                            placeholder={"Rp 1000"}
+                            onChange={(e) => setOptionPrice(e.target.value)}
+                            />
                         </div>
                     </div>
                     <div className="mt-5 flex gap-1">

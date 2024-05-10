@@ -8,6 +8,7 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { Rupiah } from "../utils/Rupiah";
 import { OrderDetails } from "../components/fragments/OrderDetails";
+import { Navbar } from "../components/layouts/Navbar";
 
 gsap.registerPlugin(useGSAP);
 
@@ -70,6 +71,7 @@ const HomePage = () => {
 
     return(
         <>
+        <Navbar/>
         <div className="pt-nav pb-10 px-[5%]">
             <Hero orderData={orderData}/>
             <div ref={orderContainer} className="mt-8 py-5 px-[5%] bg-white shadow-soft rounded-lg">

@@ -6,6 +6,7 @@ import { Alert } from "../components/fragments/Alert";
 import { StatusBtn } from "../components/elements/StatusBtn";
 import { Input } from "../components/fragments/Input";
 import { Rupiah } from "../utils/Rupiah";
+import { Navbar } from "../components/layouts/Navbar";
 
 const OrdersPage = () => {
     const [products, setProducts] = useState(null);
@@ -83,6 +84,7 @@ const OrdersPage = () => {
 
     return(
         <>
+        <Navbar/>
         <div className="pt-nav px-[5%]">
             <div className="bg-white px-5 rounded-lg w-full py-6">
                 <div className="text-lg font-bold text-violet-500 flex justify-between items-center">

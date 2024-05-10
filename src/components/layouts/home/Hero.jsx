@@ -9,13 +9,13 @@ export function Hero({orderData}){
 
     useGSAP(() => {
         gsap.from("#box1", {
-            x: -50, // Mulai dari bawah
+            y: 50, // Mulai dari bawah
             opacity: 0, // Opacity awal
             duration: 1, // Durasi animasi
             ease: "expo.inOut",
         })
         gsap.from("#box2", {
-            x: 50, // Mulai dari bawah
+            y: 50, // Mulai dari bawah
             opacity: 0, // Opacity awal
             duration: 2, // Durasi animasi
             ease: "expo.inOut",
@@ -31,7 +31,7 @@ export function Hero({orderData}){
 
 
     return(
-        <div>
+        <div className="">
                 <div className="flex gap-2">
                     <OverviewCard
                         id={"box1"}

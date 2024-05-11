@@ -13,3 +13,7 @@ th{
 td{
   @apply px-4 py-2
 }
+
+input {
+  @apply outline-none focus:border-violet-400 focus:bg-violet-50
+}

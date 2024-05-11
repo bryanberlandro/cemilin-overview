@@ -60,7 +60,7 @@ const DashboardPage = () => {
                     <td colSpan={3}>
                         {date}
                     </td>
-                    <td className="flex justify-center items-center">
+                    <td className="flex justify-center items-center text-violet-500">
                         <FaChevronDown onClick={() => handleExpand(date)}/>
                     </td>
                 </tr>

@@ -68,17 +68,16 @@ const DashboardPage = () => {
                     <tr key={order._id} className={`divide-x-2 divide-violet-100 ${date == expand ? "" : "hidden"}`}>
                         <td>{idx + 1}</td>
                         <td>
-                            <div className="flex items-center gap-3">
+                            <div className="flex items-center gap-2">
                             <div className={`w-3 h-3 rounded-full ${order.status == "pending" ? "bg-yellow-400" : "bg-red-400", order.status == "completed" ? "bg-green-400" : "bg-red-400"}`}></div>
-                            {order.status ? order.status : "completed"}
+                            {order.name}
                             </div>
                         </td>
                         <td>
-                            <h1>{order.name}</h1>
                             <h1>{Rupiah(order.totalPrice)}</h1>
                         </td>
                         <td className="text-violet-500 text-sm text-center">
-                            <Link to={`/orders/${order._id}`}>Details</Link>
+                            <Link to={`/orders/${order._id}`}>Detail</Link>
                         </td>
                     </tr>
                 ))}
@@ -94,7 +93,7 @@ const DashboardPage = () => {
     return(
         <>
         <Navbar/>
-        <div className="pt-nav px-[5%]">
+        <div className="pt-nav px-[5%] overflow-x-hidden">
             <h1 className="font-semibold text-lg">Order Lists</h1>
             <p className="text-violet-400 text-sm">Manage Orders: Edit, Delete, and Review Data</p>
             

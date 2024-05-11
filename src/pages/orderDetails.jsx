@@ -21,8 +21,8 @@ const OrderDetailsPage = () => {
 
     useGSAP(() => {
         gsap.from("#details-wrapper", {
-            y: 100,
-            duration: 2,
+            y: 1000,
+            duration: 3,
             ease: "expo.inOut"
         })
     }, [])
@@ -43,16 +43,19 @@ const OrderDetailsPage = () => {
     
     return(
         <>
-        <div className="h-max w-full flex flex-col justify-between">
-            <div className="py-4 h-32 px-[5%] text-white bg-violet-500 text-lg font-semibold">
+        <div className="h-max w-full overflow-x-hidden flex flex-col justify-between relative">
+            <div className="py-4 h-dvh px-[5%] text-white bg-gradient-to-b from-violet-500 via-violet-400 to-violet-500 text-lg font-semibold z-10">
                 <div className="flex items-center gap-8">
                     <Link to={"/dashboard"}>
                     <FaArrowLeft/>
                     </Link>
                     <h1>Order Details</h1>
                 </div>
+                <div className="flex justify-center items-center h-[80%]">
+                    <h1 className="font-extrabold text-4xl text-violet-500">CEMILIN</h1>
+                </div>
             </div>
-            <div id="details-wrapper" className="relative py-7 -mt-10 shadow-soft px-[5%] bg-white z-[99] rounded-t-3xl h-full">
+            <div id="details-wrapper" className="fixed w-full bottom-0 py-7 shadow-soft px-[5%] bg-white z-[99] rounded-t-3xl overflow-x-hidden">
                 {
                     loading ?
                     <div className="w-full flex justify-center py-20">

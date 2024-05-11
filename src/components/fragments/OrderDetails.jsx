@@ -89,7 +89,7 @@ export function OrderDetails({data, showDetails, setShowDetails, onClick}){
                                 </div>
                                 <div className="text-sm flex justify-between font-semibold">
                                     <h1>Total Price</h1>
-                                    <h1>Rp 10.000</h1>
+                                    <h1>{Rupiah(data.totalPrice)}</h1>
                                 </div>
                             </div>
                         </div>

@@ -9,6 +9,7 @@ import gsap from "gsap";
 import { Rupiah } from "../utils/Rupiah";
 import { OrderDetails } from "../components/fragments/OrderDetails";
 import { Navbar } from "../components/layouts/Navbar";
+import { Link } from "react-router-dom";
 
 gsap.registerPlugin(useGSAP);
 
@@ -82,7 +83,9 @@ const HomePage = () => {
                 <div>
                     <div className="flex justify-between items-center">
                         <h1 className="text-xl text-violet-500 font-bold">Orders</h1>
-                        <FaPlusCircle className="text-violet-500 text-xl"/>
+                        <Link to={"/orders"}>
+                            <FaPlusCircle className="text-violet-500 text-xl hover:scale-95"/>
+                        </Link>
                     </div>
                     <p className="text-sm text-neutral-500">Track, edit, and review cemilin orders</p>
                 </div>
@@ -110,7 +113,7 @@ const HomePage = () => {
                         <p className="text-xl font-semibold">{Rupiah(totalPayment)}</p>
                     </div>
                     <div className="flex hover:gap-4 transition-all duration-150 text-sm gap-2 items-center text-violet-400">
-                        <a href="">see {orderData?.length > 3 ? orderData.length - 4 : "0"} orders more</a>
+                        <Link to={'/dashboard'}>see {orderData?.length > 3 ? orderData.length - 4 : "0"} orders more</Link>
                         <FaChevronRight/>
                     </div>
                 </div>

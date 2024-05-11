@@ -6,9 +6,9 @@ import { FaChevronDown } from "react-icons/fa";
 import { Loader } from "../components/fragments/Loader";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
+import { Link } from "react-router-dom";
 
 const DashboardPage = () => {
-    const [data, setData] = useState(null)
     const [loading, setLoading] = useState(true)
     const [orderData, setOrderData] = useState({});
     const [expand, setExpand] = useState(null)
@@ -67,12 +67,19 @@ const DashboardPage = () => {
                 {orderData[date].map((order, idx) => (
                     <tr key={order._id} className={`divide-x-2 divide-violet-100 ${date == expand ? "" : "hidden"}`}>
                         <td>{idx + 1}</td>
-                        <td>{order.status ? order.status : "completed"}</td>
+                        <td>
+                            <div className="flex items-center gap-3">
+                            <div className={`w-3 h-3 rounded-full ${order.status == "pending" ? "bg-yellow-400" : "bg-red-400", order.status == "completed" ? "bg-green-400" : "bg-red-400"}`}></div>
+                            {order.status ? order.status : "completed"}
+                            </div>
+                        </td>
                         <td>
                             <h1>{order.name}</h1>
                             <h1>{Rupiah(order.totalPrice)}</h1>
                         </td>
-                        <td className="text-violet-500 text-sm text-center">Details</td>
+                        <td className="text-violet-500 text-sm text-center">
+                            <Link to={`/orders/${order._id}`}>Details</Link>
+                        </td>
                     </tr>
                 ))}
             </React.Fragment>
@@ -93,14 +100,14 @@ const DashboardPage = () => {
             
             {
                 loading ? 
-                <div className="mt-8 flex justify-center">
+                <div className="mt-10 flex justify-center">
                     <Loader color={"text-violet-400"}/>
                 </div>
                 :
                 (
-                    <table id="table" className="mt-8 shadow-soft">
+                    <table id="table" className="w-full mt-8 shadow-soft">
                         <thead>
-                            <tr>
+                            <tr className="bg-violet-400 text-white">
                                 <th>No</th>
                                 <th>Status</th>
                                 <th>Orders</th>

@@ -15,7 +15,7 @@ export function Hero({orderData}){
             ease: "expo.inOut",
         })
         gsap.from("#box2", {
-            x: 50, // Mulai dari bawah
+            y: 50, // Mulai dari bawah
             opacity: 0, // Opacity awal
             duration: 2, // Durasi animasi
             ease: "expo.inOut",

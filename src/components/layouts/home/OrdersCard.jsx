@@ -67,7 +67,7 @@ export function OrdersCard({orderData, loading, handleShowDetails}){
 
     return(
         <>
-        <div id="#orderContainer" className="mt-8 py-5 px-[5%] bg-white shadow-soft rounded-lg">
+        <div id="orderContainer" className="mt-8 py-5 px-[5%] bg-white shadow-soft rounded-lg">
                 <div>
                     <div className="flex justify-between items-center">
                         <h1 className="text-xl text-violet-500 font-bold">Orders</h1>

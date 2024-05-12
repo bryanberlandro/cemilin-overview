@@ -7,11 +7,13 @@ import { Loader } from "../components/fragments/Loader";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { Link } from "react-router-dom";
+import { FloatDetails } from "../components/fragments/FloatDetails";
 
 const DashboardPage = () => {
     const [loading, setLoading] = useState(true)
     const [orderData, setOrderData] = useState({});
     const [expand, setExpand] = useState(null)
+    const [detailsId, setDetailsId] = useState(null)
 
     useGSAP(() => {
         gsap.from("#table", {
@@ -28,7 +30,7 @@ const DashboardPage = () => {
                 const response = await axios.get('https://cemilin-api.vercel.app/buyers');
                 const orders = response.data;
                 // Kelompokkan data berdasarkan tanggal
-                orders.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+                // orders.sort((a, b) => new Date(b.purchaseDate) - new Date(a.purchaseDate));
                 const groupedOrders = groupOrdersByDate(orders);
                 setOrderData(groupedOrders);
                 setLoading(false)
@@ -77,13 +79,17 @@ const DashboardPage = () => {
                             <h1>{Rupiah(order.totalPrice)}</h1>
                         </td>
                         <td className="text-violet-500 text-sm text-center">
-                            <Link to={`/orders/${order._id}`}>Detail</Link>
+                            <Link onClick={() => handleShowDetails(order._id)}>Detail</Link>
                         </td>
                     </tr>
                 ))}
             </React.Fragment>
         )).reverse()
     };
+
+    function handleShowDetails(id){
+        setDetailsId(id)
+    }
 
     function handleExpand(id){
         setExpand(id)
@@ -93,17 +99,16 @@ const DashboardPage = () => {
     return(
         <>
         <Navbar/>
-        <div className="pt-nav px-[5%] overflow-x-hidden">
+        <div className="pt-nav h-dvh px-[5%] overflow-x-hidden">
             <h1 className="font-semibold text-lg">Order Lists</h1>
             <p className="text-violet-400 text-sm">Manage Orders: Edit, Delete, and Review Data</p>
             
             {
                 loading ? 
-                <div className="mt-10 flex justify-center">
+                <div className="pt-10 h-96 flex justify-center">
                     <Loader color={"text-violet-400"}/>
                 </div>
                 :
-                (
                     <table id="table" className="w-full mt-8 shadow-soft">
                         <thead>
                             <tr className="bg-violet-400 text-white">
@@ -117,9 +122,9 @@ const DashboardPage = () => {
                             {renderOrdersByDate()}
                         </tbody>
                     </table>
-                        ) 
                 
             }
+            <FloatDetails id={detailsId}/>
         </div>
         </>
     )

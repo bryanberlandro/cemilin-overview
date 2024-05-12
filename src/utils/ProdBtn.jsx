@@ -3,7 +3,7 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 
 /* eslint-disable react/prop-types */
-const ProdBtn = ({data, choices, chosenProduct, setChosenProduct}) => {
+const ProdBtn = ({data, isEdit, chosenProduct, setChosenProduct}) => {
 
     useGSAP(() => {
         gsap.from("#btn663b3f3fab6acf0390fcef07", {
@@ -30,7 +30,7 @@ const ProdBtn = ({data, choices, chosenProduct, setChosenProduct}) => {
             duration: 2,
             ease: "expo.inOut"
         })
-    }, [choices])
+    }, [isEdit])
 
     function handleChooseProd(product){
         const sameProduct = data.find(prod => product._id == prod._id)

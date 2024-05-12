@@ -20,9 +20,9 @@ const HomePage = () => {
     const [showDetails, setShowDetails] = useState(false)
     const [productsData, setProductsData] = useState(null)
     const [loading, setLoading] = useState(true)
-    const orderContainer = useRef()
 
     useEffect(() => {
+        console.log(orderData)
         const fetchData = async () => {
             try {
                 const response = await axios.get("https://cemilin-api.vercel.app/buyers")

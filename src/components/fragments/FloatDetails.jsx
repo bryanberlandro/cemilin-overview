@@ -54,7 +54,7 @@ export function FloatDetails({id, showDetails, setShowDetails}){
             }
             return
         }
-    }, [buyerData, id])
+    }, [buyerData, id, isEdit])
 
     function handleEdit(e){
         e.preventDefault()
@@ -138,7 +138,7 @@ export function FloatDetails({id, showDetails, setShowDetails}){
                                             isEdit ?
                                                 <>
                                                 <StatusBtn handleStatus={handleStatus} isStatus={status} status={"completed"}/>
-                                                <StatusBtn handleStatus={handleStatus} isStatus={status} status=  {"pending"}/>
+                                                <StatusBtn handleStatus={handleStatus} isStatus={status} status={"pending"}/>
                                                 <StatusBtn handleStatus={handleStatus} isStatus={status} status={"canceled"}/>
                                                 </>
                                             :

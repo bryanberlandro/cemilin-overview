@@ -15,6 +15,7 @@ const DashboardPage = () => {
     const [expand, setExpand] = useState(null)
     const [detailsId, setDetailsId] = useState(null)
     const [showDetails, setShowDetails] = useState(false)
+    const [dailyIncome, setDailyIncome] = useState(0)
 
     useGSAP(() => {
         gsap.from("#table", {
@@ -40,7 +41,13 @@ const DashboardPage = () => {
             }
         };
         fetchData();
-    }, []);
+    }, [orderData]);
+
+
+    function sumDailyPrice(data, key){
+        const sumPrice = data[key].reduce((acc, cur) => acc + cur.totalPrice, 0)
+        return Rupiah(sumPrice)
+    }
 
     // Fungsi untuk mengelompokkan data berdasarkan tanggal
     const groupOrdersByDate = (orders) => {
@@ -83,6 +90,12 @@ const DashboardPage = () => {
                         </td>
                     </tr>
                 ))}
+                    <tr className="font-semibold border-t-2 border-violet-100">
+                        <td>Total Income</td>
+                        <td colSpan={3} className="text-end">
+                            {sumDailyPrice(orderData, date)}
+                        </td>
+                    </tr>
             </React.Fragment>
         )).reverse()
     };

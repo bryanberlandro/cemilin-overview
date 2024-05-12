@@ -34,7 +34,7 @@ export function StatusBtn({status, handleStatus, isStatus}){
 
     return(
         <>
-        <div onClick={() => handleStatus(status)} className={`${statusColor} cursor-pointer transition-all duration-150 px-4 ${filter} text-[10px] rounded-full py-1 text-white`}>
+        <div onClick={() => handleStatus(status)} className={`${statusColor} cursor-pointer transition-all duration-150 px-4 ${filter} text-xs rounded-full py-1 text-white`}>
             <p>{status}</p>
         </div>
         </>

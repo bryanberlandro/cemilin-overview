@@ -15,7 +15,6 @@ const DashboardPage = () => {
     const [expand, setExpand] = useState(null)
     const [detailsId, setDetailsId] = useState(null)
     const [showDetails, setShowDetails] = useState(false)
-    const [dailyIncome, setDailyIncome] = useState(0)
 
     useGSAP(() => {
         gsap.from("#table", {

@@ -14,6 +14,7 @@ const DashboardPage = () => {
     const [orderData, setOrderData] = useState({});
     const [expand, setExpand] = useState(null)
     const [detailsId, setDetailsId] = useState(null)
+    const [showDetails, setShowDetails] = useState(false)
 
     useGSAP(() => {
         gsap.from("#table", {
@@ -51,7 +52,6 @@ const DashboardPage = () => {
             }
             groupedData[orderDate].push(order);
         });
-        console.log(groupedData)
         return groupedData;
     };
 
@@ -87,8 +87,10 @@ const DashboardPage = () => {
         )).reverse()
     };
 
+
     function handleShowDetails(id){
-        setDetailsId(id)
+            setDetailsId(id)
+            setShowDetails(true);
     }
 
     function handleExpand(id){
@@ -124,7 +126,7 @@ const DashboardPage = () => {
                     </table>
                 
             }
-            <FloatDetails id={detailsId}/>
+            <FloatDetails id={detailsId} setShowDetails={setShowDetails} showDetails={showDetails}/>
         </div>
         </>
     )

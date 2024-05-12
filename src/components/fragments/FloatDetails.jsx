@@ -5,14 +5,12 @@ import gsap from "gsap";
 import { Loader } from "./Loader";
 import { StatusBtn } from "../elements/StatusBtn";
 import ProdBtn from "../../utils/ProdBtn";
-import { useGSAP } from "@gsap/react";
 import { useFetch } from "../../hooks/useFetch";
 import { FaChevronDown } from "react-icons/fa";
 
-export function FloatDetails({id}){
+export function FloatDetails({id, showDetails, setShowDetails}){
     const { data, isLoading, isError } = useFetch("https://cemilin-api.vercel.app/products") 
     const [formData, setFormData] = useState()
-    const [showDetails, setShowDetails] = useState(true)
 
     const [buyerData, setBuyerData] = useState(null);
     const [chosenProduct, setChosenProduct] = useState(null);
@@ -27,28 +25,34 @@ export function FloatDetails({id}){
     const [totalChange, setTotalChange] = useState("")
     const [purchaseDate, setPurchaseDate] = useState("")
 
-    useGSAP(() => {
-            gsap.from("#details-wrapper", {
-                y: 1000,
-                duration: 3,
-                ease: "expo.inOut"
-            })
-    }, [id])
-    
+    useEffect(() => {
+        if(showDetails){
+            gsap.to("#details-wrapper", { y: 0, duration: 2, ease: "expo.inOut" });
+            return
+        }
+        gsap.to("#details-wrapper", { y: 1000, duration: 2, ease: "expo.inOut" });
+    }, [showDetails])
+
 
     useEffect(() => {
         if(id){
-            const fetchData = async() => {
-                try {
-                    const response = await axios.get(`https://cemilin-api.vercel.app/buyers/${id}`)
-                    setBuyerData(response.data)
-                    setLoading(false)
-                } catch(err){
-                    console.log(err)
+            if(showDetails){
+                const fetchData = async() => {
+                    try {
+                        const response = await axios.get(`https://cemilin-api.vercel.app/buyers/${id}`)
+                        setBuyerData(response.data)
+                        setLoading(false)
+                    } catch(err){
+                        console.log(err)
+                        setLoading(false)
+                    }
                 }
+                fetchData()
+            } else {
+                setBuyerData(null)
+                setLoading(true)
             }
-    
-            fetchData()
+            return
         }
     }, [buyerData, id])
 
@@ -89,10 +93,6 @@ export function FloatDetails({id}){
         }
     }
 
-    useEffect(() => {
-        console.log(formData)
-    }, [formData])
-
 
     function handleStatus(e){
         setStatus(e)
@@ -102,16 +102,15 @@ export function FloatDetails({id}){
         setShowDetails(false)
     }
 
-
     return(
         <>
-            <div id="details-wrapper" className={`fixed w-full bottom-0 left-0 py-7 ${id ? "block" : "hidden"} shadow-soft px-[5%] bg-white z-[9999999] rounded-t-3xl`}>
+            <div id="details-wrapper" className={`translate-y-[1000px] fixed w-full bottom-0 left-0 py-7 shadow-soft px-[5%] bg-white z-[9999999] rounded-t-3xl`}>
                 <div className="bg-white rounded-full px-5 py-3 absolute -top-5 text-violet-500 left-[45%]">
                     <FaChevronDown onClick={handleHideDetails}/>
                 </div>
                 {
-                    loading ?
-                    <div className="w-full flex justify-center py-20">
+                    buyerData == null ?
+                    <div className="w-full flex justify-center py-60">
                         <Loader color={"text-violet-400"}/>
                     </div> 
                     : 

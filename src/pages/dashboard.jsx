@@ -7,14 +7,11 @@ import { Loader } from "../components/fragments/Loader";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { Link } from "react-router-dom";
-import { FloatDetails } from "../components/fragments/FloatDetails";
 
 const DashboardPage = () => {
     const [loading, setLoading] = useState(true)
     const [orderData, setOrderData] = useState({});
     const [expand, setExpand] = useState(null)
-    const [detailsId, setDetailsId] = useState(null)
-    const [showDetails, setShowDetails] = useState(false)
 
     useGSAP(() => {
         gsap.from("#table", {
@@ -85,25 +82,19 @@ const DashboardPage = () => {
                             <h1>{Rupiah(order.totalPrice)}</h1>
                         </td>
                         <td className="text-violet-500 text-sm text-center">
-                            <Link onClick={() => handleShowDetails(order._id)}>Detail</Link>
+                            <Link to={`/orders/${order._id}`}>Detail</Link>
                         </td>
                     </tr>
                 ))}
                     <tr className="font-semibold border-t-2 border-violet-100">
-                        <td>Total Income</td>
-                        <td colSpan={3} className="text-end">
+                        <td colSpan={2}>Total Income</td>
+                        <td colSpan={2} className="text-end">
                             {sumDailyPrice(orderData, date)}
                         </td>
                     </tr>
             </React.Fragment>
         )).reverse()
     };
-
-
-    function handleShowDetails(id){
-            setDetailsId(id)
-            setShowDetails(true);
-    }
 
     function handleExpand(id){
         setExpand(id)
@@ -138,7 +129,7 @@ const DashboardPage = () => {
                     </table>
                 
             }
-            <FloatDetails id={detailsId} setShowDetails={setShowDetails} showDetails={showDetails}/>
+            {/* <FloatDetails id={detailsId} setShowDetails={setShowDetails} showDetails={showDetails}/> */}
         </div>
         </>
     )

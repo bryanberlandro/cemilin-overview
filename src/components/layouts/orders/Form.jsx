@@ -1,9 +1,32 @@
+/* eslint-disable react/prop-types */
+import { useEffect } from "react";
 import { Rupiah } from "../../../utils/Rupiah";
 import { StatusBtn } from "../../elements/StatusBtn";
 import { Input } from "../../fragments/Input";
+import { ProductCard } from "../../fragments/ProductCard";
 
-export function Form({setName, setPurchasedDate, setPaid, totalPrice, totalChange, handleStatus, isStatus}){
+export function Form({setName, setPurchasedDate, setPaid, totalPrice, totalChange, handleStatus, isStatus, defaultValue}){
+
+    useEffect(() => {
+        console.log(defaultValue)
+    }, [defaultValue])
+
     return(
+        <>
+        <div className="flex flex-col gap-2">
+            {
+                defaultValue &&
+                defaultValue.products.map(prod => (
+                    <ProductCard
+                    img={prod.image}
+                    name={prod.name}
+                    selectedProduct={defaultValue}
+                    chosenPieces={prod.quantity}
+                    key={prod._id}
+                    />
+                ))
+            }
+        </div>
         <form className="mt-10">
                             <div className="flex gap-1">
                                 <div className="w-1/2">
@@ -14,6 +37,7 @@ export function Form({setName, setPurchasedDate, setPaid, totalPrice, totalChang
                                     name={"name"}
                                     placeholder={"john doe"}
                                     type={"text"}
+                                    defaultValue={defaultValue?.name}
                                     onChange={(e) => setName(e.target.value)}
                                     />
                                 </div>
@@ -25,6 +49,7 @@ export function Form({setName, setPurchasedDate, setPaid, totalPrice, totalChang
                                     name={"date"}
                                     placeholder={"john doe"}
                                     type={"date"}
+                                    defaultValue={defaultValue?.purchaseDate}
                                     onChange={(e) => setPurchasedDate(e.target.value)}
                                     />
                                 </div>
@@ -46,6 +71,7 @@ export function Form({setName, setPurchasedDate, setPaid, totalPrice, totalChang
                                         name={"totalPaid"}
                                         type={"number"}
                                         placeholder={"Rp. 10.000"}
+                                        defaultValue={defaultValue?.totalPricePaid}
                                         onChange={(e) => setPaid(e.target.value)}
                                     />
                                 </div>
@@ -57,5 +83,6 @@ export function Form({setName, setPurchasedDate, setPaid, totalPrice, totalChang
                                 </div>
                             </div>
                         </form>
+        </>
     )
 }

@@ -1,4 +1,4 @@
-export function Input({htmlFor, label, onChange, placeholder, type, name, id, value}){
+export function Input({htmlFor, defaultValue, label, onChange, placeholder, type, name, id, value}){
     return(
         <div className="flex flex-col gap-2">
         <label 
@@ -10,7 +10,7 @@ export function Input({htmlFor, label, onChange, placeholder, type, name, id, va
             type={type} 
             name={name} 
             id={id}
-            value={value && value}
+            defaultValue={defaultValue}
             placeholder={placeholder}
             className="outline-none focus:border-violet-400 border-b-2 bg-violet-50 rounded-sm px-4 py-1"
         />

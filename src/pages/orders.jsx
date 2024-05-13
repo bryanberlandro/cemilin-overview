@@ -23,6 +23,7 @@ const OrdersPage = () => {
     const [purchasedDate, setPurchasedDate] = useState("");
 
     useEffect(() => {
+        console.log(selectedProduct)
         if(selectedProduct.length > 0){
             gsap.to("#floatDetails", { y: 0, duration: 1, ease: "expo.inOut" });
             return
@@ -39,7 +40,6 @@ const OrdersPage = () => {
 
     useEffect(() => {
         setTotalChange(paid - totalPrice)
-        console.log(purchasedDate)
     }, [paid, purchasedDate])
 
     const handleMinProd = (prod) => {

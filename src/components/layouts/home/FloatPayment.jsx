@@ -19,7 +19,8 @@ export function FloatPayment({selectedProduct, totalPrice, totalChange, status, 
             const productsToSend = Object.values(selectedProduct).map(product => ({
                 name: product.name,
                 quantity: product.pieces,
-                price: product.totalPrice
+                price: product.totalPrice,
+                image: product.image
             }));
             await axios.post('https://cemilin-api.vercel.app/buyers', {
                 name: name,

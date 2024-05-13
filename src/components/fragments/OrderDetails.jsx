@@ -69,12 +69,14 @@ export function OrderDetails({data, showDetails, setShowDetails, onClick}){
                                     <h1>{data.name}</h1>
                                 </div>
                                 <div className="text-sm flex justify-between text-neutral-500">
-                                    <h1>Item</h1>
-                                    <h1>{data.itemName}</h1>
-                                </div>
-                                <div className="text-sm flex justify-between text-neutral-500">
-                                    <h1>Total Item</h1>
-                                    <h1>{data.totalItems} pcs</h1>
+                                    <h1 className="text-neutral-500">Item :</h1>
+                                    <div className="text-right">
+                                    {
+                                        data.products?.map(prd => (
+                                            <p key={prd._id} className="text-sm">{prd.name}, {prd.quantity}pcs</p>
+                                        ))
+                                    }
+                                    </div>
                                 </div>
                             </div>
                             <div className="pt-5 mt-5 border-t-2 border-neutral-200">

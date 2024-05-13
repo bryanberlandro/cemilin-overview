@@ -15,10 +15,8 @@ export function OrdersCard({orderData, loading, handleShowDetails}){
 
     useEffect(() => {
         if(orderData){
-            console.log(orderData)
             const totalMoney = orderData.reduce((acc, cur) => acc + cur.totalPrice, 0)
             setTotalPayment(totalMoney)
-            console.log(totalMoney)
         }
     }, [orderData])
 

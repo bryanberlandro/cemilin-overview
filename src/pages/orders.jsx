@@ -1,22 +1,20 @@
 import { useEffect, useState } from "react";
-import { FaChevronDown, FaInfoCircle, FaTrash } from "react-icons/fa";
+import { FaInfoCircle, FaTrash } from "react-icons/fa";
 import { Alert } from "../components/fragments/Alert";
 import { Navbar } from "../components/layouts/Navbar";
-import { Form } from "../components/layouts/orders/Form";
 import { Input } from "../components/fragments/Input";
 import { ProductCard, ProductLoader } from "../components/fragments/ProductCard";
 import { useFetch } from "../hooks/useFetch"
 import { StatusBtn } from "../components/elements/StatusBtn";
 import { Rupiah } from "../utils/Rupiah";
-import { Loader } from "../components/fragments/Loader";
 import axios from "axios";
 import gsap from "gsap";
+import { FloatPayment } from "../components/layouts/home/FloatPayment";
+import { Form } from "../components/layouts/orders/Form";
 
 const OrdersPage = () => {
-    const [success, setSuccess] = useState(false)
     const {data, isLoading, isError} = useFetch("https://cemilin-api.vercel.app/products")
     const [selectedProduct, setSelectedProduct] = useState([]);
-    const [showDetails, setShowDetails] = useState(false);
     const [totalPrice, setTotalPrice] = useState(0)
     const [totalChange, setTotalChange] = useState(0)
     const [status, setStatus] = useState("")
@@ -29,7 +27,7 @@ const OrdersPage = () => {
             gsap.to("#floatDetails", { y: 0, duration: 1, ease: "expo.inOut" });
             return
         }
-        gsap.to("#floatDetails", { y: 1000, duration: 3, delay: 1, ease: "expo.inOut" });
+        gsap.to("#floatDetails", { y: 1000, duration: 2, delay: 1, ease: "expo.inOut" });
     }, [selectedProduct])
 
     useEffect(() => {
@@ -87,37 +85,8 @@ const OrdersPage = () => {
         }
     };
 
-    async function handleSendOrder(){
-        try{
-            const productsToSend = Object.values(selectedProduct).map(product => ({
-                name: product.name,
-                quantity: product.pieces,
-                price: product.totalPrice
-            }));
-            await axios.post('https://cemilin-api.vercel.app/buyers', {
-                name: name,
-                products: productsToSend,
-                totalPrice: totalPrice,
-                status: status,
-                totalPricePaid: paid,
-                totalChange: totalChange,
-                purchaseDate: purchasedDate
-            })
-            setSuccess(true)
-        } catch(err){
-            console.log(err)
-        }
-        const timeout = setTimeout(() => {
-            setSuccess(false)
-        }, 3000)
-        return () => clearTimeout(timeout);
-    }
-
     function handleStatus(e){
         setStatus(e)
-    }
-    function handleShowDetails(){
-        setShowDetails(!showDetails)
     }
 
     return(
@@ -148,64 +117,19 @@ const OrdersPage = () => {
                                 ))
                             }
                         </div>
-                        <form className="mt-10">
-                            <div className="flex gap-1">
-                                <div className="w-1/2">
-                                    <Input
-                                    htmlFor={"name"}
-                                    label={"Name"}
-                                    id={"name"}
-                                    name={"name"}
-                                    placeholder={"john doe"}
-                                    type={"text"}
-                                    onChange={(e) => setName(e.target.value)}
-                                    />
-                                </div>
-                                <div className="w-1/2">
-                                    <Input
-                                    htmlFor={"date"}
-                                    label={"Purchase Date"}
-                                    id={"date"}
-                                    name={"date"}
-                                    placeholder={"john doe"}
-                                    type={"date"}
-                                    onChange={(e) => setPurchasedDate(e.target.value)}
-                                    />
-                                </div>
-                            </div>
-                            <div className="flex flex-col mt-6 gap-2">
-                                <p className="text-sm text-neutral-500">Complete ?</p>
-                                <div className="flex gap-2">
-                                    <StatusBtn handleStatus={handleStatus} status={"completed"} isStatus={status}/>
-                                    <StatusBtn handleStatus={handleStatus} status={"pending"} isStatus={status}/>
-                                    <StatusBtn handleStatus={handleStatus} status={"canceled"} isStatus={status}/>
-                                </div>
-                            </div>
-                            <div className="mt-6 flex gap-1">
-                                <div className="flex flex-col w-1/2 gap-1">
-                                    <Input
-                                        label={"Total Paid"}
-                                        htmlFor={"totalPaid"}
-                                        id={"totalPaid"}
-                                        name={"totalPaid"}
-                                        type={"number"}
-                                        placeholder={"Rp. 10.000"}
-                                        onChange={(e) => setPaid(e.target.value)}
-                                    />
-                                </div>
-                                <div className="flex flex-col w-1/2 gap-1">
-                                    <p className={`text-sm ${totalPrice > 0 ? "text-violet-400" : "text-neutral-500"}`}>Total Change</p>
-                                    <div className={`outline-none border-b-2 ${totalPrice > 0 ? "border-violet-400 font-semibold" : "border-neutral-400 font-normal" }  px-4 py-1`}>
-                                        {Rupiah(totalChange)}
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                        
+                        <Form
+                        handleStatus={handleStatus}
+                        totalChange={totalChange}
+                        totalPrice={totalPrice}
+                        setName={setName}
+                        setPaid={setPaid}
+                        setPurchasedDate={setPurchasedDate}
+                        isStatus={status}
+                        />
                     </div>
                 </div>
             </div>
-            <div id="floatDetails" className="fixed bottom-0 rounded-t-2xl shadow-soft px-[5%] py-5 w-full bg-white left-0">
+            {/* <div id="floatDetails" className="fixed bottom-0 rounded-t-2xl shadow-soft px-[5%] py-5 w-full bg-white left-0">
                         <div onClick={handleShowDetails} className="flex items-center gap-2 text-sm font-medium text-violet-500">
                         <FaInfoCircle/>
                         <h1>Click for details</h1>
@@ -246,8 +170,16 @@ const OrdersPage = () => {
                             <p>{Rupiah(totalPrice)}</p>
                         </div>
                     <button className="w-full py-3 bg-violet-400 rounded-lg text-white mt-4" onClick={handleSendOrder}>Input Order</button>
-            </div>
-            <Alert success={success}/>
+            </div> */}
+            <FloatPayment
+            name={name}
+            paid={paid}
+            purchasedDate={purchasedDate}
+            selectedProduct={selectedProduct}
+            status={status}
+            totalChange={totalChange}
+            totalPrice={totalPrice}
+            />
         </div>
         </>
     )

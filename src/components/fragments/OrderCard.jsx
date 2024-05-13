@@ -1,3 +1,4 @@
+import { useEffect } from "react"
 import { Rupiah } from "../../utils/Rupiah"
 import { StatusBtn } from "../elements/StatusBtn"
 
@@ -14,7 +15,11 @@ export function OrderCard({data, onClick}){
             <div className="mt-2 flex justify-between">
                 <div className="text-sm">
                     <h1 className="text-neutral-500">Item :</h1>
-                    <p className="text-sm">{data.itemName}, {data.totalItems}pcs</p>
+                    {
+                        data.products?.map(prd => (
+                            <p key={prd._id} className="text-sm">{prd.name}, {prd.quantity}pcs</p>
+                        ))
+                    }
                 </div>
                 <div className="text-sm text-right">
                     <h1 className="text-neutral-500">Total :</h1>

@@ -16,17 +16,18 @@ gsap.registerPlugin(useGSAP);
 
 const HomePage = () => {
     const [orderData, setOrderData] = useState(null)
+    const [prodData, setProdData] = useState(null)
     const [orderDetails, setOrderDetails] = useState(null)
     const [showDetails, setShowDetails] = useState(false)
     const [productsData, setProductsData] = useState(null)
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
-        console.log(orderData)
         const fetchData = async () => {
             try {
                 const response = await axios.get("https://cemilin-api.vercel.app/buyers")
                 setOrderData(response.data)
+
                 setLoading(false)
             } catch(err){
                 console.log(err)
@@ -75,6 +76,7 @@ const HomePage = () => {
             <OrdersCard
             loading={loading}
             orderData={orderData}
+            prodData={prodData}
             handleShowDetails={handleShowDetails}
             />
             <OrderDetails 

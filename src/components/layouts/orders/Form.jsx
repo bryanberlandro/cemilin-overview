@@ -1,33 +1,14 @@
 /* eslint-disable react/prop-types */
-import { useEffect } from "react";
 import { Rupiah } from "../../../utils/Rupiah";
 import { StatusBtn } from "../../elements/StatusBtn";
 import { Input } from "../../fragments/Input";
-import { ProductCard } from "../../fragments/ProductCard";
 
 export function Form({setName, setPurchasedDate, setPaid, totalPrice, totalChange, handleStatus, isStatus, defaultValue}){
 
-    useEffect(() => {
-        console.log(defaultValue)
-    }, [defaultValue])
-
     return(
         <>
-        <div className="flex flex-col gap-2">
-            {
-                defaultValue &&
-                defaultValue.products.map(prod => (
-                    <ProductCard
-                    img={prod.image}
-                    name={prod.name}
-                    selectedProduct={defaultValue}
-                    chosenPieces={prod.quantity}
-                    key={prod._id}
-                    />
-                ))
-            }
-        </div>
-        <form className="mt-10">
+        
+        <form className="">
                             <div className="flex gap-1">
                                 <div className="w-1/2">
                                     <Input

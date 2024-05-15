@@ -1,6 +1,23 @@
+import { useEffect, useState } from "react"
 
 /* eslint-disable react/prop-types */
-export function ProductCard({img, name, selectedProduct, minusClick, plusClick, chosenPieces}){
+export function ProductCard({img, name, selectedProduct, minusClick, plusClick, chosenPieces, chosenProduct, chosenPrice}){
+    const [totalPieces, setTotalPieces] = useState(0)
+    const [totalPrice, setTotalPrice] = useState(0)
+
+    useEffect(() => {
+        if(selectedProduct){
+            console.log(selectedProduct)
+            setTotalPrice(selectedProduct.price)
+            setTotalPieces(selectedProduct.pieces)
+            return
+        }
+        if(chosenPieces){
+            setTotalPieces(chosenPieces)
+            setTotalPrice(chosenPrice)
+            return
+        }
+    }, [selectedProduct, chosenPieces, totalPieces, plusClick])
 
     return(
         <>
@@ -14,11 +31,11 @@ export function ProductCard({img, name, selectedProduct, minusClick, plusClick, 
                     <p className="text-xs text-neutral-400">1 porsi 5000</p>
                 </div>
                 <div className="mt-4 mb-2">
-                <p className="text-lg font-semibold">Rp {selectedProduct ?selectedProduct.totalPrice : "0"}</p>
+                <p className="text-lg font-semibold">Rp {totalPrice ? totalPrice : "0"}</p>
                 </div>
                     <div className="flex items-center gap-4">
                         <button className="px-4 w-full py-2 shadow-soft hover:scale-95 hover:bg-violet-400 hover:text-white rounded-lg bg-violet-100" onClick={minusClick}>-</button>
-                        <div className="underline underline-offset-2 decoration-violet-500">{chosenPieces ? chosenPieces : selectedProduct.pieces}</div>
+                        <div className="underline underline-offset-2 decoration-violet-500">{totalPieces ? totalPieces : "0"}</div>
                         <button className="px-4 w-full py-2 shadow-soft hover:scale-95 hover:bg-violet-400 hover:text-white rounded-lg bg-violet-100" onClick={plusClick}>+</button>
                     </div>
             </div>

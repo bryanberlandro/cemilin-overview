@@ -1,16 +1,11 @@
 import { useEffect, useState } from "react";
-import { FaInfoCircle, FaTrash } from "react-icons/fa";
-import { Alert } from "../components/fragments/Alert";
 import { Navbar } from "../components/layouts/Navbar";
-import { Input } from "../components/fragments/Input";
 import { ProductCard, ProductLoader } from "../components/fragments/ProductCard";
 import { useFetch } from "../hooks/useFetch"
-import { StatusBtn } from "../components/elements/StatusBtn";
-import { Rupiah } from "../utils/Rupiah";
-import axios from "axios";
 import gsap from "gsap";
 import { FloatPayment } from "../components/layouts/home/FloatPayment";
 import { Form } from "../components/layouts/orders/Form";
+import { FaTrash } from "react-icons/fa";
 
 const OrdersPage = () => {
     const {data, isLoading, isError} = useFetch("https://cemilin-api.vercel.app/products")
